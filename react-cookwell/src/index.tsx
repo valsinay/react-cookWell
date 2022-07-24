@@ -8,7 +8,7 @@ import Footer from "./components/Footer/Footer";
 const container = document.getElementById("root");
 const root = createRoot(container!); // createRoot(container!) if you use TypeScript
 root.render(
-  <div className="h-screen  overflow-auto ">
+  <div className="h-screen  overflow-auto flex min-h-screen flex-col justify-between ">
     <div className="flex flex-col items-center justify-center pt-0 p-12">
       <Navbar />
       <Main />

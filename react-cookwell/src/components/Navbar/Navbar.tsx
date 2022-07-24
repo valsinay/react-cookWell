@@ -13,7 +13,7 @@ function Navbar() {
         </div>
         <form
           className="flex items-center space-x-2 border border-gray-200 rounded-sm
-bg-gray-100 px-3 py-1"
+                 px-3 py-1"
         >
           <input
             className="flex-1 bg-transparent outline-none"

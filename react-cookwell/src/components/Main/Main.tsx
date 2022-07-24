@@ -1,7 +1,11 @@
 import * as React from "react";
 import { useEffect, useState } from "react";
 import Card from "../Card/Card";
-import * as Modal from 'react-modal';
+import * as ReactModal from "react-modal";
+import Spinner from "../Spinner/Spinner";
+import { IRecipe } from "../../models/Recipe";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faX } from "@fortawesome/free-solid-svg-icons";
 
 function Main() {
   const [loading, setLoading] = useState(true);
@@ -10,8 +14,17 @@ function Main() {
 
   const url = "https://api.jsonbin.io/v3/b/62d56dbd5ecb581b56c3e44d";
 
-  const [modalIsOpen,setModalIsOpen] = useState(false)
-  const [cardIsClicked,setCardIsClicked] = useState(false)
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [currentRecipe, setCurrentRecipe] = useState<IRecipe | null>(null);
+
+  useEffect(() => {
+    currentRecipe ? setModalIsOpen(true) : setModalIsOpen(false);
+  }, [currentRecipe]);
+
+  const resetCurrentRecipe = () => {
+    setModalIsOpen(false);
+    setCurrentRecipe(null);
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -30,14 +43,47 @@ function Main() {
     fetchData();
   }, []);
 
-
-
   return (
-    <div className="color mt-5 w-full grid lg:grid-cols-4 md:grid-cols-2 ">
-     { cardIsClicked ? <Modal isOpen={modalIsOpen} > </Modal> : ''}
-      {recipes?.map((recipe) => {
-        return <Card key={recipe.id} setCardIsClicked={setCardIsClicked} recipe={recipe} />;
-      })}
+    <div className="color mt-10 w-full grid lg:grid-cols-4 md:grid-cols-2 ">
+      {modalIsOpen ? (
+        <ReactModal
+          shouldCloseOnOverlayClick={true}
+          onRequestClose={() => resetCurrentRecipe()}
+          overlayClassName="Overlay"
+          className="Modal"
+          isOpen={modalIsOpen}
+        >
+          {currentRecipe?.preparationMethod.map((method: any) => {
+            return (
+              <div className="p-2 items-start flex  justify-between">
+                <p className="circle">{method.step}</p>
+                <p className=" pl-4 basis-11/12 font-medium"> {method.text}</p>
+              </div>
+            );
+          })}
+          <button className="closeBtn" onClick={() => resetCurrentRecipe()}>
+            <FontAwesomeIcon className="p-2" icon={faX} />
+          </button>
+        </ReactModal>
+      ) : (
+        ""
+      )}
+      {loading && (
+        <div className="pos-center">
+          <Spinner />
+        </div>
+      )}
+
+      {!loading &&
+        recipes?.map((recipe) => {
+          return (
+            <Card
+              key={recipe.id}
+              setCurrentRecipe={setCurrentRecipe}
+              recipe={recipe}
+            />
+          );
+        })}
     </div>
   );
 }
