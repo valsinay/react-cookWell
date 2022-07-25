@@ -2,14 +2,12 @@ import * as React from "react";
 import { IRecipe } from "../../models/Recipe";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUpRightFromSquare } from "@fortawesome/free-solid-svg-icons";
-import { useState } from "react";
 type Props = {
   recipe: IRecipe;
   setCurrentRecipe:(c:IRecipe)=>void
 };
 
 function Card({ recipe, setCurrentRecipe }: Props) {
-  const ingredients = recipe.ingredients;
 
   return (
     <>

@@ -2,19 +2,19 @@ import * as React from "react";
 import { Combobox } from "@headlessui/react";
 import { useContext, useEffect, useState } from "react";
 import { SearchContext } from "../../hooks/searchContext";
-import {faCheck} from '@fortawesome/free-solid-svg-icons'
+import { faCheck } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 function Navbar() {
   const url = "https://api.jsonbin.io/v3/b/62d56dbd5ecb581b56c3e44d";
   const [ingredients, setIngredients] = useState([]);
-  const { searchedQuery, setSearchedQuery } = useContext(SearchContext);
+  const {  setSearchedQuery } = useContext(SearchContext);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await fetch(url);
-        const { metadata, record } = await response.json();
+        const {  record } = await response.json();
         setIngredients(record.ingredients);
       } catch (error) {
         console.error(error.message);
@@ -23,16 +23,15 @@ function Navbar() {
 
     fetchData();
   }, []);
-  
+
   let ingredientNames = ingredients.map(({ name }) => name);
-  
+
   const [selectedIngredient, setSelectedIngredient] = useState([]);
   const [query, setQuery] = useState("");
-  console.log(selectedIngredient);
 
   useEffect(() => {
     setSearchedQuery(selectedIngredient.toString());
-  }, [selectedIngredient]);
+  }, [setSearchedQuery, selectedIngredient]);
 
   const filteredIngredients =
     query === ""
@@ -51,14 +50,16 @@ function Navbar() {
             <p className="italic text-xs text-gray-600">by Devexperts</p>
           </section>
         </div>
-        <Combobox value={selectedIngredient} onChange={setSelectedIngredient} multiple>
+        <Combobox
+          value={selectedIngredient}
+          onChange={setSelectedIngredient}
+          multiple
+        >
           <Combobox.Label className="relative flex justify-center max-w-full">
-            
             <Combobox.Input
               placeholder="Filter ingredients"
               className="h-12 w-64 max-w-xs px-6 text-base text-black   border-2 rounded-lg border-opacity-50 outline-none focus:border-gray-500 placeholder-gray-300 placeholder-opacity-0 transition duration-200"
               onChange={(event) => setQuery(event.target.value)}
-              // displayValue={(person) => person.name}
             />
             <span className=" leading-10  text-opacity-80  bg-white text-gray-300 absolute left-5 top-1 px-1 transition duration-200 input-text">
               Filter ingredients
@@ -71,15 +72,17 @@ function Navbar() {
                 key={ingredient}
                 value={ingredient}
               >
-                 {({ active, selected }) => (
-              <li
-               className="list-none flex items-center"
-              >
-          
-                {selected && <FontAwesomeIcon className="p-1 bg-pink-500 text-white rounded-sm mr-4"  icon={faCheck} />}
-                {ingredient}
-              </li>
-            )}
+                {({ selected }) => (
+                  <li className="list-none flex items-center">
+                    {selected && (
+                      <FontAwesomeIcon
+                        className="p-1 bg-pink-500 text-white rounded-sm mr-4"
+                        icon={faCheck}
+                      />
+                    )}
+                    {ingredient}
+                  </li>
+                )}
                 {/* {ingredient} */}
               </Combobox.Option>
             ))}
