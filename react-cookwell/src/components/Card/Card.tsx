@@ -14,7 +14,7 @@ function Card({ recipe, setCurrentRecipe }: Props) {
         className="flex justify-center"
         onClick={() => setCurrentRecipe(recipe)}
       >
-        <div className="max-w-screen-xl p-5 sm:p-10 md:p-4 flex mt-0	cursor-pointer hover:scale-105 ease-in-out duration-300 min-h-full">
+        <div data-testid="card" className="max-w-screen-xl p-5 sm:p-10 md:p-4 flex mt-0	cursor-pointer hover:scale-105 ease-in-out duration-300 min-h-full">
           <div className="rounded items-start overflow-hidden shadow-lg flex flex-col border">
             <div className="flex items-center p-4">
               <div className="text-lg">

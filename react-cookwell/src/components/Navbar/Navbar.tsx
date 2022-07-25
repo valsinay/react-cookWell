@@ -42,7 +42,7 @@ function Navbar() {
 
   return (
     <div className="px-4 w-full  sticky top-0 z-50 ">
-      <div className="w-full flex  bg-white rounded-bl-md rounded-br-md px-4 py-2 shadow-md flex-col flex-wrap md:flex-row md:justify-between sm:flex-row sm:justify-between lg:flex-row lg:justify-between">
+      <div data-testid="navbarContainer" className="w-full flex  bg-white rounded-bl-md rounded-br-md px-4 py-2 shadow-md flex-col flex-wrap md:flex-row md:justify-between sm:flex-row sm:justify-between lg:flex-row lg:justify-between">
         <div className="relative h-10  flex flex-shrink-0 cursor-pointer">
           <img src="./tomato.svg" alt="" className="object-contain" />
           <section className="ml-1">
@@ -55,8 +55,9 @@ function Navbar() {
           onChange={setSelectedIngredient}
           multiple
         >
-          <Combobox.Label className="relative flex justify-center max-w-full">
+          <Combobox.Label data-testid='comboLabel' className="relative flex justify-center max-w-full" >
             <Combobox.Input
+              
               placeholder="Filter ingredients"
               className="h-12 w-64 max-w-xs px-6 text-base text-black   border-2 rounded-lg border-opacity-50 outline-none focus:border-gray-500 placeholder-gray-300 placeholder-opacity-0 transition duration-200"
               onChange={(event) => setQuery(event.target.value)}
@@ -68,6 +69,7 @@ function Navbar() {
           <Combobox.Options className="  max-w-fit w-64 right-8 top-14  absolute z-10 mt-1 max-h-60 overflow-x-hidden overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-gray-500 focus:outline-none sm:text-sm">
             {filteredIngredients.map((ingredient) => (
               <Combobox.Option
+                data-testid="comboOption"
                 className="flex items-center hover:bg-black hover:text-gray-300 ease-in-out duration-200 h-12 w-64 relative cursor-default select-none py-2 pl-3 pr-9 text-gray-900"
                 key={ingredient}
                 value={ingredient}

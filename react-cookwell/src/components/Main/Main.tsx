@@ -45,9 +45,10 @@ function Main() {
   }, [searchedQuery]);
 
   return (
-    <div className="color mt-10 w-full grid lg:grid-cols-4 md:grid-cols-2 ">
+    <div data-testid='main-container' className="color mt-10 w-full grid lg:grid-cols-4 md:grid-cols-2 ">
       {modalIsOpen ? (
         <ReactModal
+         data-testid="modal"
           shouldCloseOnOverlayClick={true}
           onRequestClose={() => resetCurrentRecipe()}
           overlayClassName="Overlay"
@@ -56,7 +57,7 @@ function Main() {
         >
           {currentRecipe?.preparationMethod.map((method: any) => {
             return (
-              <div className="p-2 items-start flex  justify-between">
+              <div data-testid='modalDiv' className="p-2 items-start flex  justify-between">
                 <p className="circle">{method.step}</p>
                 <p className=" pl-4 basis-11/12 font-medium"> {method.text}</p>
               </div>
