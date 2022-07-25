@@ -17,18 +17,11 @@ function Main() {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [currentRecipe, setCurrentRecipe] = useState<IRecipe | null>(null);
   const { searchedQuery } = useContext(SearchContext);
-
-  const filtered = recipes.filter((x) => {
-    if (x.ingredients.toString().includes(searchedQuery)) {
-      return true;
-    } else {
-      return false;
-    }
-  });
-
+  
   useEffect(() => {
     currentRecipe ? setModalIsOpen(true) : setModalIsOpen(false);
   }, [currentRecipe]);
+
 
   const resetCurrentRecipe = () => {
     setModalIsOpen(false);
@@ -39,7 +32,7 @@ function Main() {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const response = await fetch(url);
+        const response = await fetch(url);        
         const {  record } = await response.json();
         setRecipes(record.recipes);
       } catch (error) {
@@ -49,7 +42,7 @@ function Main() {
     };
 
     fetchData();
-  }, []);
+  }, [searchedQuery]);
 
   return (
     <div className="color mt-10 w-full grid lg:grid-cols-4 md:grid-cols-2 ">
@@ -83,10 +76,12 @@ function Main() {
       )}
 
       {!loading &&
-        filtered.map((recipe) => {
+        recipes.filter((recipe) => {
+        return recipe.ingredients.toString().includes(searchedQuery.toLowerCase())
+        }).map((recipe) => {
           return (
             <Card
-              key={recipe.id}
+              key={recipe.name}
               setCurrentRecipe={setCurrentRecipe}
               recipe={recipe}
             />
