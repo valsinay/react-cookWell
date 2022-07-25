@@ -4,6 +4,11 @@
 
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
 
+input[type="text"]:focus ~ .input-text,
+input[type="text"]:not(:placeholder-shown) ~ .input-text{
+  @apply text-gray-500 transform -translate-y-6 -translate-x-2 scale-75;
+}
+
 body {
   font-family: "Poppins", sans-serif !important;
   margin: 0px;
@@ -32,6 +37,7 @@ body {
     border-radius: 4px;
     outline: none;
     padding: 20px;
+    max-height:70vh;
   }
   .Overlay {
     align-items: center;
